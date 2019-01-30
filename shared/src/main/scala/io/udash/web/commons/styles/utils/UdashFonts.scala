@@ -1,13 +1,12 @@
 package io.udash.web.commons.styles.utils
 
-import io.udash.css.CssBase
-
+import io.udash.css.{CssBase, CssStyle}
 import scalacss.internal.AV
 
 object UdashFonts extends CssBase {
   import dsl._
 
-  def acumin(fontWeight: AV = FontWeight.Regular, fontStyle: AV = FontStyle.Normal) = style(
+  def acumin(fontWeight: AV = FontWeight.Regular, fontStyle: AV = FontStyle.Normal): CssStyle = mixin(
     fontFamily :=! FontFamily.Acumin,
     fontStyle,
     fontWeight
@@ -15,7 +14,7 @@ object UdashFonts extends CssBase {
 }
 
 object FontFamily {
-  val Acumin = "'acumin-pro', san-serif"
+  val Acumin = "'acumin-pro', san-serif" //TODO remove acumin, use ROBOTO
 }
 
 object FontWeight extends CssBase {
