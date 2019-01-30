@@ -46,7 +46,7 @@ object FooterStyles extends CssBase {
   )
 
   val footerMore: CssStyle = style(
-    UdashFonts.acumin(FontWeight.SemiBold),
+    UdashFonts.roboto(FontWeight.SemiBold),
     marginBottom(.9375 rem),
     fontSize(1.375 rem)
   )

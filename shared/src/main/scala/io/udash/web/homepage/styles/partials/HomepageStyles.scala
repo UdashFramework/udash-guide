@@ -97,7 +97,7 @@ object HomepageStyles extends CssBase with CodeBlockStyles {
   )
 
   val introHead: CssStyle = style(
-    UdashFonts.acumin(FontWeight.SemiBold),
+    UdashFonts.roboto(FontWeight.SemiBold),
     fontSize(5.5 rem),
     lineHeight(1.1),
     marginTop(3.125 rem),
@@ -183,14 +183,14 @@ object HomepageStyles extends CssBase with CodeBlockStyles {
   )
 
   private val boxListHead: CssStyle = mixin(
-    UdashFonts.acumin(FontWeight.Medium),
+    UdashFonts.roboto(FontWeight.Medium),
     position.relative,
     display.block,
     paddingBottom(3.4375 rem),
     margin(`0`),
 
     &.after(
-      UdashFonts.acumin(FontWeight.Light),
+      UdashFonts.roboto(FontWeight.Light),
       content := "\"—\"",
       position.absolute,
       width(100 %%),
@@ -267,7 +267,7 @@ object HomepageStyles extends CssBase with CodeBlockStyles {
   )
 
   val featuresListHeadInner: CssStyle = style(
-    UdashFonts.acumin(FontWeight.ExtraLight, FontStyle.Italic),
+    UdashFonts.roboto(FontWeight.ExtraLight, FontStyle.Italic),
     position.absolute,
     top(2.625 rem),
     display.block,
@@ -345,7 +345,7 @@ object HomepageStyles extends CssBase with CodeBlockStyles {
   )
 
   val demoDescription: CssStyle = style(
-    UdashFonts.acumin(FontWeight.ExtraLight),
+    UdashFonts.roboto(FontWeight.ExtraLight),
     fontSize(2 rem),
     marginBottom(2.1875 rem)
   )

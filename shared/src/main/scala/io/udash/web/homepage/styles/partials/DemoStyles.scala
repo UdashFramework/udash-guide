@@ -11,7 +11,7 @@ object DemoStyles extends CssBase {
   import dsl._
 
   val demoComponent: CssStyle = style(
-    UdashFonts.acumin(),
+    UdashFonts.roboto(),
     position.relative,
     height(682 px),
     marginBottom(3.125 rem),
@@ -22,7 +22,7 @@ object DemoStyles extends CssBase {
     ),
 
     unsafeChild("input")(
-      UdashFonts.acumin()
+      UdashFonts.roboto()
     )
   )
 

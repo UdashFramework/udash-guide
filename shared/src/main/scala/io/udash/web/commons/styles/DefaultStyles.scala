@@ -64,7 +64,7 @@ trait DefaultStyles extends CssBase {
     ),
 
     unsafeRoot("html") (
-      UdashFonts.acumin(),
+      UdashFonts.roboto(),
       position.relative,
       height(100 %%),
     ),
@@ -81,7 +81,7 @@ trait DefaultStyles extends CssBase {
 
     unsafeRoot("h1") (
       position.relative,
-      UdashFonts.acumin(FontWeight.SemiBold),
+      UdashFonts.roboto(FontWeight.SemiBold),
       paddingTop(4.375 rem),
       paddingBottom(2.8125 rem),
       lineHeight(1.2),
@@ -102,7 +102,7 @@ trait DefaultStyles extends CssBase {
     ),
 
     unsafeRoot("h2") (
-      UdashFonts.acumin(FontWeight.SemiBold),
+      UdashFonts.roboto(FontWeight.SemiBold),
       marginTop(3.4375 rem),
       marginBottom(1.25 rem),
       lineHeight(1.2),
@@ -114,7 +114,7 @@ trait DefaultStyles extends CssBase {
     ),
 
     unsafeRoot("blockquote") (
-      UdashFonts.acumin(FontWeight.ExtraLight, FontStyle.Italic),
+      UdashFonts.roboto(FontWeight.ExtraLight, FontStyle.Italic),
       position.relative,
       margin(2.5 rem, `0`, 3.125 rem, 2.8125 rem),
       padding(.9375 rem, 1.875 rem),

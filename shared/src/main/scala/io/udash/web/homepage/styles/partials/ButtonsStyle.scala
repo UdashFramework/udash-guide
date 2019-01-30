@@ -49,7 +49,7 @@ object ButtonsStyle extends CssBase {
 
   val btnDefault: CssStyle = style(
     btn,
-    UdashFonts.acumin(FontWeight.SemiBold),
+    UdashFonts.roboto(FontWeight.SemiBold),
     display.inlineBlock,
     color.white,
     fontSize(1.75 rem),

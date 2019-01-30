@@ -6,15 +6,15 @@ import scalacss.internal.AV
 object UdashFonts extends CssBase {
   import dsl._
 
-  def acumin(fontWeight: AV = FontWeight.Regular, fontStyle: AV = FontStyle.Normal): CssStyle = mixin(
-    fontFamily :=! FontFamily.Acumin,
+  def roboto(fontWeight: AV = FontWeight.Regular, fontStyle: AV = FontStyle.Normal): CssStyle = mixin(
+    fontFamily :=! FontFamily.Roboto,
     fontStyle,
     fontWeight
   )
 }
 
 object FontFamily {
-  val Acumin = "'acumin-pro', san-serif" //TODO remove acumin, use ROBOTO
+  val Roboto = "'Roboto', sans-serif"
 }
 
 object FontWeight extends CssBase {

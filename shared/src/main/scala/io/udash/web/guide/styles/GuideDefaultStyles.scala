@@ -36,7 +36,7 @@ object GuideDefaultStyles extends CssBase with DefaultStyles {
     ),
 
     unsafeRoot("h3") (
-      UdashFonts.acumin(FontWeight.ExtraLight),
+      UdashFonts.roboto(FontWeight.ExtraLight),
       marginTop(2.8125 rem),
       marginBottom(.9375 rem),
       lineHeight(1.2),
@@ -48,7 +48,7 @@ object GuideDefaultStyles extends CssBase with DefaultStyles {
     ),
 
     unsafeRoot("h4") (
-      UdashFonts.acumin(FontWeight.ExtraLight),
+      UdashFonts.roboto(FontWeight.ExtraLight),
       marginTop(2.1875 rem),
       marginBottom(.9375 rem),
       lineHeight(1.2),
