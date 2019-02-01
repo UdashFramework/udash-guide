@@ -12,7 +12,7 @@ object MenuStyles extends CssBase {
   import dsl._
 
   val guideMenu: CssStyle = style(
-    UdashFonts.roboto(FontWeight.SemiBold),
+    UdashFonts.roboto(FontWeight.Bold),
     GuideStyleUtils.border(),
     width(100 %%),
 

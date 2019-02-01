@@ -245,7 +245,7 @@ object GuideStyles extends CssBase with CodeBlockStyles {
   )
 
   val errorHead: CssStyle = style(
-    UdashFonts.roboto(FontWeight.SemiBold),
+    UdashFonts.roboto(FontWeight.Bold),
     fontSize(5.5 rem),
     lineHeight(1.1),
     transform := "translate3d(0, 0, 1)",
