@@ -32,20 +32,41 @@ class BootstrapExtView extends FinalView {
     CodeBlock(
       s"""import io.udash.css.CssView._
          |
-         |div(BootstrapStyles.row)(
-         |  div(BootstrapStyles.Grid.colXs9, BootstrapStyles.Well.well)(
+         |div(BootstrapStyles.Grid.row)(
+         |  div(
+         |    BootstrapStyles.Grid.col(9),
+         |    BootstrapStyles.Border.border(),
+         |    BootstrapStyles.Border.rounded(),
+         |    BootstrapStyles.Background.color(Color.Light),
+         |    BootstrapStyles.Spacing.padding(size = SpacingSize.Normal),
+         |    BootstrapStyles.Spacing.margin(
+         |      side = Side.Bottom, size = SpacingSize.Normal
+         |    )
+         |  )(
          |    ".col-xs-9"
          |  ),
-         |  div(BootstrapStyles.Grid.colXs4, BootstrapStyles.Well.well)(
-         |    ".col-xs-4",br,
+         |  div(
+         |    BootstrapStyles.Grid.col(4),
+         |    BootstrapStyles.Border.border(),
+         |    BootstrapStyles.Border.rounded(),
+         |    BootstrapStyles.Background.color(Color.Light),
+         |    BootstrapStyles.Spacing.padding(size = SpacingSize.Normal),
+         |  )(
+         |    ".col-xs-4", br,
          |    "Since 9 + 4 = 13 > 12, this 4-column-wide div",
          |    "gets wrapped onto a new line as one contiguous unit."
          |  ),
-         |  div(BootstrapStyles.Grid.colXs6, BootstrapStyles.Well.well)(
-         |    ".col-xs-6",br,
+         |  div(
+         |    BootstrapStyles.Grid.col(6),
+         |    BootstrapStyles.Border.border(),
+         |    BootstrapStyles.Border.rounded(),
+         |    BootstrapStyles.Background.color(Color.Light),
+         |    BootstrapStyles.Spacing.padding(size = SpacingSize.Normal),
+         |  )(
+         |    ".col-xs-6", br,
          |    "Subsequent columns continue along the new line."
          |  )
-         |)""".stripMargin
+         |))""".stripMargin
     )(GuideStyles),
     ForceBootstrap(
       BootstrapDemos.statics()
@@ -57,18 +78,18 @@ class BootstrapExtView extends FinalView {
     p("The icons from ", i("Glyphicons"), " and ", i("FontAwesome"), " packages are accessible in ", i("Icons"), " object."),
     CodeBlock(
       s"""UdashBootstrap.loadFontAwesome(),
-         |UdashButtonToolbar(
+         |UdashButtonToolbar()(
          |  UdashButtonGroup()(
-         |    UdashButton()(i(Icons.Glyphicon.alignLeft)).render,
-         |    UdashButton()(i(Icons.Glyphicon.alignCenter)).render,
-         |    UdashButton()(i(Icons.Glyphicon.alignRight)).render,
-         |    UdashButton()(i(Icons.Glyphicon.alignJustify)).render
+         |    UdashButton()(i(UdashIcons.FontAwesome.Solid.alignLeft)).render,
+         |    UdashButton()(i(UdashIcons.FontAwesome.Solid.alignCenter)).render,
+         |    UdashButton()(i(UdashIcons.FontAwesome.Solid.alignRight)).render,
+         |    UdashButton()(i(UdashIcons.FontAwesome.Solid.alignJustify)).render
          |  ).render,
          |  UdashButtonGroup()(
-         |    UdashButton()(i(Icons.FontAwesome.bitcoin)).render,
-         |    UdashButton()(i(Icons.FontAwesome.euro)).render,
-         |    UdashButton()(i(Icons.FontAwesome.dollar)).render,
-         |    UdashButton()(i(UdashIcons.FontAwesome.superpowers)).render,
+         |    UdashButton()(i(UdashIcons.FontAwesome.Brands.bitcoin)).render,
+         |    UdashButton()(i(UdashIcons.FontAwesome.Solid.euroSign)).render,
+         |    UdashButton()(i(UdashIcons.FontAwesome.Solid.dollarSign)).render,
+         |    UdashButton()(i(UdashIcons.FontAwesome.Brands.superpowers)).render,
          |  ).render
          |).render""".stripMargin
     )(GuideStyles),

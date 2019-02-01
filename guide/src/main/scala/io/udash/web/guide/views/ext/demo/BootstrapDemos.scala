@@ -23,7 +23,7 @@ import io.udash.bootstrap.pagination.UdashPagination
 import io.udash.bootstrap.progressbar.UdashProgressBar
 import io.udash.bootstrap.table.UdashTable
 import io.udash.bootstrap.tooltip.{UdashPopover, UdashTooltip}
-import io.udash.bootstrap.utils.BootstrapStyles.{Color, ResponsiveBreakpoint, Size}
+import io.udash.bootstrap.utils.BootstrapStyles._
 import io.udash.bootstrap.utils._
 import io.udash.css.CssView
 import io.udash.logging.CrossLogging
@@ -45,17 +45,28 @@ object BootstrapDemos extends CrossLogging with CssView {
   import io.udash.web.guide.Context._
   import org.scalajs.dom._
 
+  private val wellStyles = Seq(
+    BootstrapStyles.Border.border(),
+    BootstrapStyles.Border.rounded(),
+    BootstrapStyles.Background.color(Color.Light),
+    BootstrapStyles.Spacing.padding(size = SpacingSize.Normal),
+  )
+
   def statics(): dom.Element =
     div(BootstrapStyles.Grid.row, GuideStyles.frame)(
-      div(BootstrapStyles.Grid.col(9), BootstrapStyles.Border.border())(
+      div(BootstrapStyles.Grid.col(9), wellStyles,
+        BootstrapStyles.Spacing.margin(
+          side = Side.Bottom, size = SpacingSize.Normal
+        )
+      )(
         ".col-xs-9"
       ),
-      div(BootstrapStyles.Grid.col(4), BootstrapStyles.Border.border())(
+      div(BootstrapStyles.Grid.col(4), wellStyles)(
         ".col-xs-4", br,
         "Since 9 + 4 = 13 > 12, this 4-column-wide div",
         "gets wrapped onto a new line as one contiguous unit."
       ),
-      div(BootstrapStyles.Grid.col(6), BootstrapStyles.Border.border())(
+      div(BootstrapStyles.Grid.col(6), wellStyles)(
         ".col-xs-6", br,
         "Subsequent columns continue along the new line."
       )
@@ -149,7 +160,7 @@ object BootstrapDemos extends CrossLogging with CssView {
         ).render
       )}.render,
       hr,
-      div(BootstrapStyles.Border.border())(
+      div(wellStyles)(
         repeat(events)(ev => Seq(i(ev.get).render, br.render))
       )
     ).render
@@ -264,13 +275,13 @@ object BootstrapDemos extends CrossLogging with CssView {
     dropup.listen(listener)
 
     div(GuideStyles.frame)(
-      div(BootstrapStyles.Grid.row)(
+      div(BootstrapStyles.Grid.row, BootstrapStyles.Spacing.margin(side = Side.Bottom, size = SpacingSize.Normal))(
         div(BootstrapStyles.Grid.col(6))(dropdown.render),
         div(BootstrapStyles.Grid.col(6))(dropup.render)
       ),
       h4("Clicks: "),
       produce(clicks)(seq =>
-        ul(BootstrapStyles.Border.border())(seq.map(click =>
+        ul(wellStyles)(seq.map(click =>
           li(click)
         ): _*).render
       )
@@ -308,13 +319,15 @@ object BootstrapDemos extends CrossLogging with CssView {
     }
 
     div(GuideStyles.frame)(
-      push.render,
-      div(GlobalStyles.centerBlock)(
+      div(BootstrapStyles.Spacing.margin(side = Side.Bottom, size = SpacingSize.Normal))(
+        push.render,
+      ),
+      div(GlobalStyles.centerBlock, BootstrapStyles.Spacing.margin(side = Side.Bottom, size = SpacingSize.Normal))(
         buttons.map(_.render)
       ),
       h4("Clicks: "),
       produce(clicks)(seq =>
-        ul(BootstrapStyles.Border.border())(seq.map(li(_))).render
+        ul(wellStyles)(seq.map(li(_))).render
       )
     ).render
   }
@@ -329,11 +342,11 @@ object BootstrapDemos extends CrossLogging with CssView {
     }
 
     div(GuideStyles.frame)(
-      div(GlobalStyles.centerBlock)(
+      div(GlobalStyles.centerBlock, BootstrapStyles.Spacing.margin(side = Side.Bottom, size = SpacingSize.Normal))(
         buttons.map { case (_, (_, btn)) => btn.render }
       ),
       h4("Is active: "),
-      div(BootstrapStyles.Border.border())(
+      div(wellStyles)(
         buttons.map({ case (name, (active, _)) =>
           span(s"$name: ", bind(active), br)
         }).toSeq
@@ -372,9 +385,11 @@ object BootstrapDemos extends CrossLogging with CssView {
     val selected = SeqProperty[String]("Checkbox 1")
     val options = SeqProperty[String]("Checkbox 1", "Checkbox 2", "Checkbox 3")
     div(GuideStyles.frame)(
-      UdashButtonGroup.checkboxes(selected, options)().render,
+      div(BootstrapStyles.Spacing.margin(side = Side.Bottom, size = SpacingSize.Normal))(
+        UdashButtonGroup.checkboxes(selected, options)().render
+      ),
       h4("Is active: "),
-      div(BootstrapStyles.Border.border())(
+      div(wellStyles)(
         repeatWithNested(options) { (option, nested) =>
           val checked = selected.transform((_: Seq[String]).contains(option.get))
           div(bind(option), ": ", bind(checked)).render
@@ -387,9 +402,11 @@ object BootstrapDemos extends CrossLogging with CssView {
     val selected = Property[String]("Radio 1")
     val options = SeqProperty[String]("Radio 1", "Radio 2", "Radio 3")
     div(GuideStyles.frame)(
-      UdashButtonGroup.radio(selected, options)().render,
+      div(BootstrapStyles.Spacing.margin(side = Side.Bottom, size = SpacingSize.Normal))(
+        UdashButtonGroup.radio(selected, options)().render
+      ),
       h4("Is active: "),
-      div(BootstrapStyles.Border.border())(
+      div(wellStyles)(
         repeatWithNested(options) { (option, nested) =>
           val checked = selected.transform(_ == option.get)
           div(bind(option), ": ", bind(checked)).render
