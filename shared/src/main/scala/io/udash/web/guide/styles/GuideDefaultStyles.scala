@@ -30,8 +30,12 @@ object GuideDefaultStyles extends CssBase with DefaultStyles {
     ),
 
     unsafeRoot("a") (
-      &.visited(
-        color.inherit
+      &.not(".badge")(
+        &.not(".nav-link")(
+          &.visited(
+            color.inherit
+          )
+        )
       )
     ),
 
