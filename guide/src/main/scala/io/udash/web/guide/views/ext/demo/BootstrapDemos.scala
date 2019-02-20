@@ -44,14 +44,8 @@ object BootstrapDemos extends CrossLogging with CssView {
 
   import JsDom.all._
   import io.udash.web.guide.Context._
+  import io.udash.web.guide.components.BootstrapUtils._
   import org.scalajs.dom._
-
-  private val wellStyles = Seq(
-    BootstrapStyles.Border.border(),
-    BootstrapStyles.Border.rounded(),
-    BootstrapStyles.Background.color(Color.Light),
-    BootstrapStyles.Spacing.padding(size = SpacingSize.Normal),
-  )
 
   def statics(): dom.Element =
     div(BootstrapStyles.Grid.row, GuideStyles.frame)(

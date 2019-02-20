@@ -2,15 +2,17 @@ package io.udash.web.guide.views.rest.demos
 
 import io.udash._
 import io.udash.bootstrap.button.{UdashButton, UdashButtonGroup}
+import io.udash.bootstrap.utils.BootstrapStyles
 import io.udash.bootstrap.utils.BootstrapStyles.Color
 import io.udash.web.commons.views.Component
 import io.udash.web.guide.Context
+import io.udash.web.guide.components.BootstrapUtils
 import io.udash.web.guide.demos.rest.RestExampleClass
 import io.udash.web.guide.styles.partials.GuideStyles
-
-import scala.util.{Failure, Success}
 import scalatags.JsDom
 import scalatags.JsDom.all._
+
+import scala.util.{Failure, Success}
 
 class SimpleRestDemoComponent extends Component {
   import Context._
@@ -97,15 +99,23 @@ class SimpleRestDemoComponent extends Component {
     }
 
     def render: Modifier = span(GuideStyles.frame, GuideStyles.useBootstrap, id := "simple-rest-demo")(
-      UdashButtonGroup()(
+      div(BootstrapStyles.Spacing.margin(
+        side = BootstrapStyles.Side.Bottom,
+        size = BootstrapStyles.SpacingSize.Normal
+      ))(UdashButtonGroup()(
         loadStringButton.render,
         loadIntButton.render,
         loadClassButton.render
-      ).render,
-      h3("Results:"),
-      div("String: ", bind(model.subProp(_.string))),
-      div("Int: ", bind(model.subProp(_.int))),
-      div("Class: ", bind(model.subProp(_.cls)))
+      ).render),
+      div(BootstrapStyles.Spacing.margin(
+        side = BootstrapStyles.Side.Bottom,
+        size = BootstrapStyles.SpacingSize.Normal
+      ), id := "simple-rest-demo-response-header")(h3("Results:")),
+      div(BootstrapUtils.wellStyles)(
+        div(id := "simple-rest-demo-response-string", "String: ", bind(model.subProp(_.string))),
+        div(id := "simple-rest-demo-response-int", "Int: ", bind(model.subProp(_.int))),
+        div(id := "simple-rest-demo-response-class", "Class: ", bind(model.subProp(_.cls)))
+      )
     )
   }
 }

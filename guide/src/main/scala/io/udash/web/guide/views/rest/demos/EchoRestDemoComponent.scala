@@ -3,14 +3,16 @@ package io.udash.web.guide.views.rest.demos
 import io.udash._
 import io.udash.bootstrap.button.UdashButton
 import io.udash.bootstrap.form.UdashInputGroup
+import io.udash.bootstrap.utils.BootstrapStyles
 import io.udash.bootstrap.utils.BootstrapStyles.Color
 import io.udash.web.commons.views.Component
 import io.udash.web.guide.Context
+import io.udash.web.guide.components.BootstrapUtils
 import io.udash.web.guide.styles.partials.GuideStyles
-
-import scala.util.{Failure, Success}
 import scalatags.JsDom
 import scalatags.JsDom.all._
+
+import scala.util.{Failure, Success}
 
 class EchoRestDemoComponent extends Component {
   import Context._
@@ -99,7 +101,10 @@ class EchoRestDemoComponent extends Component {
     }
 
     def render: Modifier = span(GuideStyles.frame, GuideStyles.useBootstrap, id := "echo-rest-demo")(
-      UdashInputGroup()(
+      div(BootstrapStyles.Spacing.margin(
+        side = BootstrapStyles.Side.Bottom,
+        size = BootstrapStyles.SpacingSize.Normal
+      ))(UdashInputGroup()(
         UdashInputGroup.input(
           TextInput(content)(id := "echo-rest-demo-input").render
         ),
@@ -107,9 +112,12 @@ class EchoRestDemoComponent extends Component {
         UdashInputGroup.appendButton(headerButton.render),
         UdashInputGroup.appendButton(urlButton.render),
         UdashInputGroup.appendButton(bodyButton.render)
-      ).render,
-      div(id := "echo-rest-demo-response")(
-        h3("Response: "),
+      ).render),
+      div(BootstrapStyles.Spacing.margin(
+        side = BootstrapStyles.Side.Bottom,
+        size = BootstrapStyles.SpacingSize.Normal
+      ), id := "echo-rest-demo-response-header")(h3("Response: ")),
+      div(BootstrapUtils.wellStyles, id := "echo-rest-demo-response")(
         bind(response)
       )
     )
