@@ -1,6 +1,7 @@
 package io.udash.web.guide.views.ext.demo
 
 import io.udash.i18n._
+import io.udash.web.guide.components.BootstrapUtils
 import io.udash.web.guide.demos.i18n.Translations
 import io.udash.web.guide.styles.partials.GuideStyles
 import org.scalajs.dom
@@ -18,7 +19,7 @@ object RemoteTranslationsDemo {
     import io.udash.web.guide.Context._
     implicit val translationProvider = new RemoteTranslationProvider(serverRpc.demos().translations(), Some(LocalStorage), 6 hours)
     implicit val lang = Lang("pl")
-    div(id := "rpc-translations-demo", GuideStyles.frame, GuideStyles.useBootstrap)(
+    div(BootstrapUtils.wellStyles)(id := "rpc-translations-demo", GuideStyles.frame, GuideStyles.useBootstrap)(
       ul(
         li("auth.loginLabel: ", translated(Translations.auth.loginLabel())),
         li("auth.passwordLabel: ", translated(Translations.auth.passwordLabel())),

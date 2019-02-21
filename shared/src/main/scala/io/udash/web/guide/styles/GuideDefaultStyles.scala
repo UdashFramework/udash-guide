@@ -29,16 +29,6 @@ object GuideDefaultStyles extends CssBase with DefaultStyles {
       )
     ),
 
-    unsafeRoot("a") (
-      &.not(".badge")(
-        &.not(".nav-link")(
-          &.visited(
-            color.inherit
-          )
-        )
-      )
-    ),
-
     unsafeRoot("h3") (
       UdashFonts.roboto(FontWeight.Thin),
       marginTop(2.8125 rem),

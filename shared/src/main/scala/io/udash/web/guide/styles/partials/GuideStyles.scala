@@ -108,15 +108,17 @@ object GuideStyles extends CssBase with CodeBlockStyles {
     unsafeChild("a")(
       &.not(".badge")(
         &.not(".nav-link")(
-          color(StyleConstants.Colors.Red),
+          &.not(".dropdown-item")(
+            color(StyleConstants.Colors.Red),
 
-          &.hover(
-            color(StyleConstants.Colors.Red)
-          ),
+            &.hover(
+              color(StyleConstants.Colors.Red)
+            ),
 
-          &.visited(
-            color(StyleConstants.Colors.Red)
-          ),
+            &.visited(
+              color(StyleConstants.Colors.Red)
+            ),
+          )
         )
       )
     ),

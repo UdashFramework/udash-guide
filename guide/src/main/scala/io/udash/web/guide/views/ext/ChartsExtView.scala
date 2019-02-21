@@ -72,7 +72,7 @@ class ChartsExtView extends FinalView {
     charts.map { case (name, config) =>
       val c = chartContainer()
       jQ(c).highcharts(config)
-      div(h3(name), c)
+      div(width := "600px", height := "400px")(h3(name), c)
     },
     h2("What's next?"),
     p("You can check the ", a(href := BootstrapExtState.url)("Bootstrap Components"),
