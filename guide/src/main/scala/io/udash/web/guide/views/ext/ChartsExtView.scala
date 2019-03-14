@@ -75,7 +75,7 @@ class ChartsExtView extends FinalView {
       // For some reason with new highcharts, they initialize before browser parses styles for their containers...
       // This hack is to delay highcharts initialization until container widths are calculated
       div()(h3(name), chartContainer().setup(chartContainer =>
-        setTimeout(10.milliseconds) {
+        setTimeout(0.milliseconds) {
           jQ(chartContainer).highcharts(config)
         }
       ))

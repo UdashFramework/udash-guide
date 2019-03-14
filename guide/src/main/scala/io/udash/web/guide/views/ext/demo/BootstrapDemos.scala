@@ -11,6 +11,8 @@ import io.udash.bootstrap.badge.UdashBadge
 import io.udash.bootstrap.breadcrumb.UdashBreadcrumbs
 import io.udash.bootstrap.button._
 import io.udash.bootstrap.card.UdashCard
+import io.udash.bootstrap.carousel.UdashCarousel.AnimationOptions
+import io.udash.bootstrap.carousel.{UdashCarousel, UdashCarouselSlide}
 import io.udash.bootstrap.collapse.{UdashAccordion, UdashCollapse}
 import io.udash.bootstrap.datepicker.UdashDatePicker
 import io.udash.bootstrap.dropdown.UdashDropdown
@@ -992,45 +994,48 @@ object BootstrapDemos extends CrossLogging with CssView {
     div(GuideStyles.frame)(accordionElement).render
   }
 
-  def carousel(): dom.Element = { //TODO make that work?
-//    def newSlide(): UdashCarouselSlide = UdashCarouselSlide(
-//      Url("/assets/images/ext/bootstrap/carousel.jpg")
-//    )(
-//      h3(randomString()),
-//      p(randomString())
-//    )
-//    val slides = SeqProperty[UdashCarouselSlide]((1 to 5).map(_ => newSlide()))
-//    val active = Property(true)
-//    import scala.concurrent.duration._
-//    val carousel = UdashCarousel(slides, activeSlide = 1,
-//      animationOptions = AnimationOptions(interval = 2 seconds, keyboard = false, active = active.get)
-//    )
-//    val prevButton = UdashButton()("Prev")
-//    val nextButton = UdashButton()("Next")
-//    val prependButton = UdashButton()("Prepend")
-//    val appendButton = UdashButton()("Append")
-//    prevButton.listen { case _ => carousel.previousSlide() }
-//    nextButton.listen { case _ => carousel.nextSlide() }
-//    prependButton.listen { case _ => slides.prepend(newSlide()) }
-//    appendButton.listen { case _ => slides.append(newSlide()) }
-//    active.listen(b => if (b) carousel.cycle() else carousel.pause())
+  def carousel(): dom.Element = {
+    def newSlide(): UdashCarouselSlide = UdashCarouselSlide(
+      Url("/assets/images/ext/bootstrap/carousel.jpg")
+    )(
+      h3(randomString()),
+      p(randomString())
+    )
+
+    val slides = SeqProperty[UdashCarouselSlide]((1 to 5).map(_ => newSlide()))
+    val active = Property(true)
+    import scala.concurrent.duration._
+    val carousel = UdashCarousel(
+      slides = slides,
+      activeSlide = Property(1),
+      animationOptions = Property(AnimationOptions(interval = 2 seconds, keyboard = false, active = active.get))
+    ) { case (slide, nested) => nested(produce(slide)(_.render)) }
+    val prevButton = UdashButton()("Prev")
+    val nextButton = UdashButton()("Next")
+    val prependButton = UdashButton()("Prepend")
+    val appendButton = UdashButton()("Append")
+    prevButton.listen { case _ => carousel.previousSlide() }
+    nextButton.listen { case _ => carousel.nextSlide() }
+    prependButton.listen { case _ => slides.prepend(newSlide()) }
+    appendButton.listen { case _ => slides.append(newSlide()) }
+    active.listen(b => if (b) carousel.cycle() else carousel.pause())
     div(
-//      div(GuideStyles.frame)(
-//        UdashButtonToolbar(
-//          UdashButton.toggle(active = active)("Run animation").render,
-//          UdashButtonGroup()(
-//            prevButton.render,
-//            nextButton.render
-//          ).render,
-//          UdashButtonGroup()(
-//            prependButton.render,
-//            appendButton.render
-//          ).render
-//        ).render
-//      ),
-//      div(
-//        carousel.render
-//      )
+      div(GuideStyles.frame)(
+        UdashButtonToolbar()(
+          UdashButton.toggle(active = active)("Run animation").render,
+          UdashButtonGroup()(
+            prevButton.render,
+            nextButton.render
+          ).render,
+          UdashButtonGroup()(
+            prependButton.render,
+            appendButton.render
+          ).render
+        ).render
+      ),
+      div(
+        carousel.render
+      )
     ).render
   }
 
