@@ -262,7 +262,9 @@ object BootstrapDemos extends CrossLogging with CssView {
       UdashDropdown.defaultItemFactory,
       _ => Seq[Modifier]("Dropdown ", BootstrapStyles.Button.color(Color.Primary))
     )
-    val dropup = UdashDropdown(items, UdashDropdown.Direction.Up.toProperty)(UdashDropdown.defaultItemFactory, _ => "Dropup ")
+    val dropup = UdashDropdown(items, UdashDropdown.Direction.Up.toProperty)(
+      UdashDropdown.defaultItemFactory, _ => "Dropup "
+    )
     val listener: PartialFunction[UdashDropdown.DropdownEvent[DefaultDropdownItem, CastableProperty[DefaultDropdownItem]], Unit] = {
       case UdashDropdown.DropdownEvent.SelectionEvent(_, item) => clicks.append(item.toString)
       case ev: DropdownEvent[_, _] => logger.info(ev.toString)
