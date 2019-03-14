@@ -864,13 +864,15 @@ object BootstrapDemos extends CrossLogging with CssView {
     ).render
   }
 
-  def tooltips(): dom.Element = { //TODO fix styling
+  def tooltips(): dom.Element = {
     import scala.concurrent.duration.DurationInt
+    val tooltipContainerId = ComponentId("tooltip-container")
     val label1 = UdashBadge()(_ => Seq[Modifier]("Tooltip on hover with delay", GlobalStyles.smallMargin)).render
     UdashTooltip(
       trigger = Seq(UdashTooltip.Trigger.Hover),
       delay = UdashTooltip.Delay(500 millis, 250 millis),
-      title = (_) => "Tooltip..."
+      title = (_) => "Tooltip...",
+      container = Option(s"#$tooltipContainerId")
     )(label1)
 
     val label2 = UdashBadge()(_ => Seq[Modifier]("Tooltip on click", GlobalStyles.smallMargin)).render
@@ -878,32 +880,36 @@ object BootstrapDemos extends CrossLogging with CssView {
       trigger = Seq(UdashTooltip.Trigger.Click),
       delay = UdashTooltip.Delay(0 millis, 250 millis),
       placement = (_, _) => Seq(UdashTooltip.Placement.Bottom),
-      title = (_) => "Tooltip 2..."
+      title = (_) => "Tooltip 2...",
+      container = Option(s"#$tooltipContainerId")
     )(label2)
 
     val label3 = UdashBadge()(_ => Seq[Modifier]("Tooltip with JS toggler", GlobalStyles.smallMargin)).render
     val label3Tooltip = UdashTooltip(
       trigger = Seq(UdashTooltip.Trigger.Manual),
       placement = (_, _) => Seq(UdashTooltip.Placement.Right),
-      title = (_) => "Tooltip 3..."
+      title = (_) => "Tooltip 3...",
+      container = Option(s"#$tooltipContainerId")
     )(label3)
 
     val button = UdashButton()("Toggle tooltip")
     button.listen { case _ => label3Tooltip.toggle() }
 
-    div(GuideStyles.frame)(
+    div(GuideStyles.frame, id := tooltipContainerId)(
       label1, label2, label3, button.render
     ).render
   }
 
-  def popovers(): dom.Element = { //TODO fix styling
+  def popovers(): dom.Element = {
     import scala.concurrent.duration.DurationInt
+    val popoverContainerId = ComponentId("popover-container")
     val label1 = UdashBadge()(_ => Seq[Modifier]("Popover on hover with delay", GlobalStyles.smallMargin)).render
     UdashPopover(
       trigger = Seq(UdashPopover.Trigger.Hover),
       delay = UdashPopover.Delay(500 millis, 250 millis),
       title = (_) => "Popover...",
-      content = (_) => "Content..."
+      content = (_) => "Content...",
+      container = Option(s"#$popoverContainerId")
     )(label1)
 
     val label2 = UdashBadge()(_ => Seq[Modifier]("Popover on click", GlobalStyles.smallMargin)).render
@@ -912,7 +918,8 @@ object BootstrapDemos extends CrossLogging with CssView {
       delay = UdashPopover.Delay(0 millis, 250 millis),
       placement = (_, _) => Seq(UdashPopover.Placement.Bottom),
       title = (_) => "Popover 2...",
-      content = (_) => "Content..."
+      content = (_) => "Content...",
+      container = Option(s"#$popoverContainerId")
     )(label2)
 
     val label3 = UdashBadge()(_ => Seq[Modifier]("Popover with JS toggler", GlobalStyles.smallMargin)).render
@@ -927,13 +934,14 @@ object BootstrapDemos extends CrossLogging with CssView {
           p("HTML content..."),
           ul(li("Item 1"), li("Item 2"), li("Item 3"))
         ).render
-      }
+      },
+      container = Option(s"#$popoverContainerId")
     )(label3)
 
     val button = UdashButton()("Toggle popover")
     button.listen { case _ => label3Tooltip.toggle() }
 
-    div(GuideStyles.frame)(
+    div(GuideStyles.frame, id := popoverContainerId)(
       label1, label2, label3, button.render
     ).render
   }
@@ -941,7 +949,7 @@ object BootstrapDemos extends CrossLogging with CssView {
   def simpleCollapse(): dom.Element = {
     val events = SeqProperty.blank[UdashCollapse.CollapseEvent]
     val collapse = UdashCollapse()(
-      div(BootstrapStyles.Border.border())(
+      div(wellStyles)(
         ul(repeat(events)(event => li(event.get.toString).render))
       )
     )
@@ -965,7 +973,7 @@ object BootstrapDemos extends CrossLogging with CssView {
     ).render
   }
 
-  def accordionCollapse(): dom.Element = { //TODO fix styling
+  def accordionCollapse(): dom.Element = {
     val events = SeqProperty.blank[UdashCollapse.CollapseEvent]
     val news = SeqProperty[String](
       "Title 1", "Title 2", "Title 3"
@@ -984,7 +992,7 @@ object BootstrapDemos extends CrossLogging with CssView {
     div(GuideStyles.frame)(accordionElement).render
   }
 
-  def carousel(): dom.Element = {
+  def carousel(): dom.Element = { //TODO make that work?
 //    def newSlide(): UdashCarouselSlide = UdashCarouselSlide(
 //      Url("/assets/images/ext/bootstrap/carousel.jpg")
 //    )(
