@@ -253,36 +253,16 @@ class BootstrapExtView extends FinalView {
           |val disabledButtons = Property(Set.empty[Int])
           |def disabled(idx: Int): ReadableProperty[Boolean] = disabledButtons.transform(_.contains(idx))
           |val buttons = Seq(
-          |  UdashButton(Color.Primary.toProperty, smallBtn, disabled = disabled(0))(_ =>
-          |    Seq[Modifier]("Primary", GlobalStyles.smallMargin)
-          |  ),
-          |  UdashButton(Color.Secondary.toProperty, smallBtn, disabled = disabled(1))(_ =>
-          |    Seq[Modifier]("Secondary", GlobalStyles.smallMargin)
-          |  ),
-          |  UdashButton(Color.Success.toProperty, smallBtn, disabled = disabled(2))(_ =>
-          |    Seq[Modifier]("Success", GlobalStyles.smallMargin)
-          |  ),
-          |  UdashButton(Color.Info.toProperty, smallBtn, disabled = disabled(3))(_ =>
-          |    Seq[Modifier]("Info", GlobalStyles.smallMargin)
-          |  ),
-          |  UdashButton(Color.Warning.toProperty, smallBtn, disabled = disabled(4))(_ =>
-          |    Seq[Modifier]("Warning", GlobalStyles.smallMargin)
-          |  ),
-          |  UdashButton(Color.Danger.toProperty, smallBtn, disabled = disabled(5))(_ =>
-          |    Seq[Modifier]("Danger", GlobalStyles.smallMargin)
-          |  ),
-          |  UdashButton(Color.Link.toProperty, smallBtn, disabled = disabled(6))(_ =>
-          |    Seq[Modifier]("Link", GlobalStyles.smallMargin)
-          |  ),
-          |  UdashButton(Color.Light.toProperty, smallBtn, disabled = disabled(7))(_ =>
-          |    Seq[Modifier]("Light", GlobalStyles.smallMargin)
-          |  ),
-          |  UdashButton(Color.Dark.toProperty, smallBtn, disabled = disabled(8))(_ =>
-          |    Seq[Modifier]("Dark", GlobalStyles.smallMargin)
-          |  ),
-          |  UdashButton(Color.White.toProperty, smallBtn, disabled = disabled(9))(_ =>
-          |    Seq[Modifier]("White", GlobalStyles.smallMargin)
-          |  ),
+          |  UdashButton(Color.Primary.toProperty, smallBtn, disabled = disabled(0))(_ => Seq[Modifier]("Primary", GlobalStyles.smallMargin)),
+          |  UdashButton(Color.Secondary.toProperty, smallBtn, disabled = disabled(1))(_ =>Seq[Modifier]("Secondary", GlobalStyles.smallMargin)),
+          |  UdashButton(Color.Success.toProperty, smallBtn, disabled = disabled(2))(_ => Seq[Modifier]("Success", GlobalStyles.smallMargin)),
+          |  UdashButton(Color.Info.toProperty, smallBtn, disabled = disabled(3))(_ =>Seq[Modifier]("Info", GlobalStyles.smallMargin)),
+          |  UdashButton(Color.Warning.toProperty, smallBtn, disabled = disabled(4))(_ => Seq[Modifier]("Warning", GlobalStyles.smallMargin)),
+          |  UdashButton(Color.Danger.toProperty, smallBtn, disabled = disabled(5))(_ => Seq[Modifier]("Danger", GlobalStyles.smallMargin)),
+          |  UdashButton(Color.Link.toProperty, smallBtn, disabled = disabled(6))(_ => Seq[Modifier]("Link", GlobalStyles.smallMargin)),
+          |  UdashButton(Color.Light.toProperty, smallBtn, disabled = disabled(7))(_ => Seq[Modifier]("Light", GlobalStyles.smallMargin)),
+          |  UdashButton(Color.Dark.toProperty, smallBtn, disabled = disabled(8))(_ => Seq[Modifier]("Dark", GlobalStyles.smallMargin)),
+          |  UdashButton(Color.White.toProperty, smallBtn, disabled = disabled(9))(_ => Seq[Modifier]("White", GlobalStyles.smallMargin)),
           |)
           |
           |val clicks = SeqProperty[String](Seq.empty)
@@ -515,7 +495,7 @@ class BootstrapExtView extends FinalView {
     CodeBlock(
       s"""val search = Property.blank[String]
          |val something = Property.blank[String]
-         |div(GuideStyles.frame)(
+         |div(
          |  UdashForm(inline = true)(factory => Seq(
          |    UdashInputGroup()(
          |      UdashInputGroup.prependText("Search: "),
@@ -700,8 +680,7 @@ class BootstrapExtView extends FinalView {
     ),
     h3("Labels"),
     CodeBlock(
-      s"""UdashLabel(UdashBootstrap.newId(), "Default").render,
-         |UdashBadge(badgeStyle = BootstrapStyles.Color.Primary.toProperty)(_ => "Primary").render,
+      s"""UdashBadge(badgeStyle = BootstrapStyles.Color.Primary.toProperty)(_ => "Primary").render,
          |UdashBadge(badgeStyle = BootstrapStyles.Color.Secondary.toProperty, pillStyle = true.toProperty)(_ => "Secondary Pill").render,
          |UdashBadge.link(Property("https://udash.io/"), badgeStyle = BootstrapStyles.Color.Success.toProperty)(_ =>"Success Link").render,
          |UdashBadge(badgeStyle = BootstrapStyles.Color.Danger.toProperty)(_ => "Danger").render,
@@ -734,7 +713,11 @@ class BootstrapExtView extends FinalView {
     h3("Jumbotron"),
     p("A lightweight, flexible component that can optionally extend the entire viewport to showcase key content on your site."),
     CodeBlock(
-      s"""UdashJumbotron(h1("Header), "Content...").render""".stripMargin
+      s"""UdashJumbotron()( _ => Seq[Modifier](
+         |  h1("Jumbo poem!"),
+         |  p("One component to rule them all, one component to find them, one component to bring them all and in the darkness bind them."),
+         |  UdashButton(buttonStyle = Color.Info.toProperty, size = Some(Size.Large).toProperty[Option[Size]])(_ => "Click").render
+         |)).render""".stripMargin
     )(GuideStyles),
     div(cls := "bootstrap")(
       BootstrapDemos.jumbotron()
@@ -743,33 +726,34 @@ class BootstrapExtView extends FinalView {
     p("The ", i("UdashAlert")," component supports both regular and dismissible Bootstrap alerts with type-safe styling and ",
     i("Property"),"-based dismissal mechanism."),
     CodeBlock(
-      s"""|val styles = Seq[(String) => DismissibleUdashAlert](
-          |  (title) => DismissibleUdashAlert.info(title),
-          |  (title) => DismissibleUdashAlert.danger(title),
-          |  (title) => DismissibleUdashAlert.success(title),
-          |  (title) => DismissibleUdashAlert.warning(title)
-          |)
-          |val dismissed = SeqProperty[String](Seq.empty)
+      s"""|val dismissed = SeqProperty[String](Seq.empty)
           |def randomDismissible(): dom.Element = {
           |  val title = randomString()
-          |  val alert = styles(Random.nextInt(styles.size))(title)
+          |  val alert = DismissibleUdashAlert(
+          |    alertStyle = BootstrapStyles.Color.values(Random.nextInt(BootstrapStyles.Color.values.size)).toProperty
+          |  )(title)
           |  alert.dismissed.listen(_ => dismissed.append(title))
           |  alert.render
           |}
-          |val alerts = div(BootstrapStyles.Well.well, GlobalStyles.centerBlock)(
-          |  UdashAlert.info("info").render,
-          |  UdashAlert.success("success").render,
-          |  UdashAlert.warning("warning").render,
-          |  UdashAlert.danger("danger").render
+          |val alerts = div(GlobalStyles.centerBlock)(
+          |  UdashAlert(alertStyle = BootstrapStyles.Color.Info.toProperty)("info").render,
+          |  UdashAlert(alertStyle = BootstrapStyles.Color.Success.toProperty)("success").render,
+          |  UdashAlert(alertStyle = BootstrapStyles.Color.Warning.toProperty)("warning").render,
+          |  UdashAlert(alertStyle = BootstrapStyles.Color.Danger.toProperty)("danger").render
           |).render
-          |val create = UdashButton(
-          |  size = ButtonSize.Large,
-          |  block = true
-          |)("Create dismissible alert")
+          |val create = UdashButton()("Create dismissible alert")
           |create.listen { case _ => alerts.appendChild(randomDismissible()) }
           |div(
+          |  alerts,
           |  create.render,
-          |  alerts
+          |  div(BootstrapStyles.Spacing.margin(
+          |    side = Side.Top, size = SpacingSize.Normal
+          |  ))(
+          |    h4("Dismissed: "),
+          |    div(wellStyles)(produce(dismissed)(seq =>
+          |      ul(seq.map(click => li(click))).render
+          |    ))
+          |  )
           |).render""".stripMargin
     )(GuideStyles),
     ForceBootstrap(
@@ -789,11 +773,18 @@ class BootstrapExtView extends FinalView {
           |      UdashButton.toggle(active = animate)("Animate").render
           |    ).render
           |  ), br,
-          |  UdashProgressBar(value, showPercentage, Success)().render,
-          |  UdashProgressBar(value, showPercentage, Striped)(value => value+" percent").render,
-          |  UdashProgressBar.animated(value, showPercentage, animate, Danger)().render,
-          |  NumberInput.debounced(value.transform(_.toString, Integer.parseInt))(
-          |    BootstrapStyles.Form.formControl, placeholder := "Percentage"
+          |  UdashProgressBar(value, showPercentage, barStyle = Some(BootstrapStyles.Color.Success).toProperty)().render,
+          |  UdashProgressBar(value, showPercentage, stripped = true.toProperty)(
+          |    (value, min, max, nested) => Seq[Modifier](
+          |      nested(bind(value.combine(min)(_ - _).combine(max.combine(min)(_ - _))(_ * 100 / _))),
+          |      " percent"
+          |    )
+          |  ).render,
+          |  UdashProgressBar(value, showPercentage, stripped = true.toProperty, animated = animate,
+          |    barStyle = Some(BootstrapStyles.Color.Danger).toProperty
+          |  )().render,
+          |  NumberInput(value.transform(_.toString, Integer.parseInt))(
+          |    BootstrapStyles.Form.control, placeholder := "Percentage"
           |  )
           |).render""".stripMargin
     )(GuideStyles),
@@ -804,25 +795,25 @@ class BootstrapExtView extends FinalView {
     CodeBlock(
       s"""import io.udash.bootstrap.BootstrapImplicits._
           |val news = SeqProperty[String]("Title 1", "Title 2", "Title 3")
-          |val listGroup = UdashListGroup(news)((news) =>
+          |val listGroup = UdashListGroup(news)((news, nested) =>
           |  li(
-          |    BootstrapStyles.active.styleIf(news.transform(_.endsWith("1"))),
-          |    BootstrapStyles.disabled.styleIf(news.transform(_.endsWith("2"))),
-          |    BootstrapStyles.List.listItemSuccess.styleIf(news.transform(_.endsWith("3"))),
-          |    BootstrapStyles.List.listItemDanger.styleIf(news.transform(_.endsWith("4"))),
-          |    BootstrapStyles.List.listItemInfo.styleIf(news.transform(_.endsWith("5"))),
-          |    BootstrapStyles.List.listItemWarning.styleIf(news.transform(_.endsWith("6")))
-          |  )(bind(news)).render
+          |    nested(BootstrapStyles.active.styleIf(news.transform(_.endsWith("1")))),
+          |    nested(BootstrapStyles.disabled.styleIf(news.transform(_.endsWith("2")))),
+          |    nested(BootstrapStyles.List.color(BootstrapStyles.Color.Success).styleIf(news.transform(_.endsWith("3")))),
+          |    nested(BootstrapStyles.List.color(BootstrapStyles.Color.Danger).styleIf(news.transform(_.endsWith("4")))),
+          |    nested(BootstrapStyles.List.color(BootstrapStyles.Color.Info).styleIf(news.transform(_.endsWith("5")))),
+          |    nested(BootstrapStyles.List.color(BootstrapStyles.Color.Warning).styleIf(news.transform(_.endsWith("6"))))
+          |  )(nested(bind(news))).render
           |)
-          |
-         |var i = 1
+          |var i = 1
           |val appendHandler = window.setInterval(() => {
           |  news.append(s"Dynamic $i")
           |  i += 1
           |}, 2000)
           |window.setTimeout(() => window.clearInterval(appendHandler), 20000)
-          |
-         |listGroup.render""".stripMargin
+          |div(
+          |  listGroup.render
+          |).render""".stripMargin
     )(GuideStyles),
     div(cls := "bootstrap")( //force Boostrap styles
       BootstrapDemos.listGroup()
@@ -830,13 +821,20 @@ class BootstrapExtView extends FinalView {
     h3("Card"),
     CodeBlock(
       s"""val news = SeqProperty[String]("Title 1", "Title 2", "Title 3")
-         |UdashPanel(PanelStyle.Success)(
-         |  UdashPanel.heading("Panel heading"),
-         |  UdashPanel.body("Some content panel..."),
-         |  UdashListGroup(news)((news) =>
-         |    li(bind(news)).render
-         |  ).render,
-         |  UdashPanel.footer("Panel footer")
+         |div(
+         |  UdashCard(
+         |    borderColor = Some(BootstrapStyles.Color.Success).toProperty,
+         |    textColor = Some(BootstrapStyles.Color.Primary).toProperty,
+         |  )(factory => Seq(
+         |    factory.header("Card heading"),
+         |    factory.body("Content..."),
+         |    factory.listGroup(nested => {
+         |      val group = UdashListGroup(news)((news, nested) => li(nested(bind(news))).render)
+         |      nested(group)
+         |      group
+         |    }),
+         |    factory.footer("Card footer")
+         |  )).render
          |).render""".stripMargin
     )(GuideStyles),
     ForceBootstrap(
@@ -845,11 +843,11 @@ class BootstrapExtView extends FinalView {
     h3("Responsive embed"),
     CodeBlock(
       s"""div(
-         |  div(BootstrapStyles.EmbedResponsive.embed,
+         |  div(BootstrapStyles.EmbedResponsive.responsive,
          |      BootstrapStyles.EmbedResponsive.embed16by9)(
          |    iframe(BootstrapStyles.EmbedResponsive.item, src := "...")
          |  ),
-         |  div(BootstrapStyles.EmbedResponsive.embed,
+         |  div(BootstrapStyles.EmbedResponsive.responsive,
          |      BootstrapStyles.EmbedResponsive.embed4by3)(
          |    iframe(BootstrapStyles.EmbedResponsive.item, src := "...")
          |  )
@@ -868,35 +866,28 @@ class BootstrapExtView extends FinalView {
     ),
     CodeBlock(
       s"""|val events = SeqProperty.blank[UdashModal.ModalEvent]
-          |val header = () => div(
-          |  "Modal events",
-          |  UdashButton()(
-          |    UdashModal.CloseButtonAttr,
-          |    BootstrapStyles.close, "×"
-          |  ).render
+          |val header = (_: Binding.NestedInterceptor) => div("Modal events").render
+          |val body = (nested: Binding.NestedInterceptor) => div(BootstrapStyles.Spacing.margin())(
+          |  ul(nested(repeat(events)(event => li(event.get.toString).render)))
           |).render
-          |val body = () => div(
-          |  div(BootstrapStyles.Well.well)(
-          |    ul(repeat(events)(event => li(event.get.toString).render))
-          |  )
-          |).render
-          |val footer = () => div(
-          |  UdashButton()(UdashModal.CloseButtonAttr, "Close").render,
-          |  UdashButton(buttonStyle = ButtonStyle.Primary)("Something...").render
+          |val footer = (_: Binding.NestedInterceptor) => div(
+          |  UdashButton()(_ => Seq[Modifier](UdashModal.CloseButtonAttr, "Close")).render,
+          |  UdashButton(buttonStyle = BootstrapStyles.Color.Primary.toProperty)("Something...").render
           |).render
           |
-          |val modal = UdashModal(modalSize = ModalSize.Large)(
+          |val modal = UdashModal(modalSize = Some(BootstrapStyles.Size.Large).toProperty)(
           |  headerFactory = Some(header),
           |  bodyFactory = Some(body),
           |  footerFactory = Some(footer)
           |)
           |modal.listen { case ev => events.append(ev) }
           |
-          |val openModalButton = UdashButton(buttonStyle = ButtonStyle.Primary)(
-          |  modal.openButtonAttrs(), "Show modal..."
-          |)
+          |val openModalButton = UdashButton(buttonStyle = BootstrapStyles.Color.Primary.toProperty)("Show modal...")
+          |openModalButton.listen { case _ =>
+          |  modal.show()
+          |}
           |val openAndCloseButton = UdashButton()("Open and close after 2 seconds...")
-          |openAndCloseButton.listen{ case _ =>
+          |openAndCloseButton.listen { case _ =>
           |  modal.show()
           |  window.setTimeout(() => modal.hide(), 2000)
           |}
@@ -915,32 +906,36 @@ class BootstrapExtView extends FinalView {
     h3("Tooltips"),
     CodeBlock(
       s"""|import scala.concurrent.duration.DurationInt
-          |val label1 = UdashLabel(UdashBootstrap.newId(), "Tooltip on hover with delay").render
-          |val label1Tooltip = UdashTooltip(
-          |  trigger = Seq(UdashTooltip.HoverTrigger),
+          |val tooltipContainerId = ComponentId("tooltip-container")
+          |val label1 = UdashBadge()(_ => Seq[Modifier]("Tooltip on hover with delay", GlobalStyles.smallMargin)).render
+          |UdashTooltip(
+          |  trigger = Seq(UdashTooltip.Trigger.Hover),
           |  delay = UdashTooltip.Delay(500 millis, 250 millis),
-          |  title = (_) => "Tooltip..."
+          |  title = (_) => "Tooltip...",
+          |  container = Option("#" + tooltipContainerId)
           |)(label1)
           |
-          |val label2 = UdashLabel(UdashBootstrap.newId(), "Tooltip on click").render
-          |val label2Tooltip = UdashTooltip(
-          |  trigger = Seq(UdashTooltip.ClickTrigger),
+          |val label2 = UdashBadge()(_ => Seq[Modifier]("Tooltip on click", GlobalStyles.smallMargin)).render
+          |UdashTooltip(
+          |  trigger = Seq(UdashTooltip.Trigger.Click),
           |  delay = UdashTooltip.Delay(0 millis, 250 millis),
-          |  placement = (_, _) => Seq(UdashTooltip.BottomPlacement),
-          |  title = (_) => "Tooltip 2..."
+          |  placement = (_, _) => Seq(UdashTooltip.Placement.Bottom),
+          |  title = (_) => "Tooltip 2...",
+          |  container = Option("#" + tooltipContainerId)
           |)(label2)
           |
-          |val label3 = UdashLabel(UdashBootstrap.newId(), "Tooltip with JS toggler").render
+          |val label3 = UdashBadge()(_ => Seq[Modifier]("Tooltip with JS toggler", GlobalStyles.smallMargin)).render
           |val label3Tooltip = UdashTooltip(
-          |  trigger = Seq(UdashTooltip.ManualTrigger),
-          |  placement = (_, _) => Seq(UdashTooltip.RightPlacement),
-          |  title = (_) => "Tooltip 3..."
+          |  trigger = Seq(UdashTooltip.Trigger.Manual),
+          |  placement = (_, _) => Seq(UdashTooltip.Placement.Right),
+          |  title = (_) => "Tooltip 3...",
+          |  container = Option("#" + tooltipContainerId)
           |)(label3)
           |
           |val button = UdashButton()("Toggle tooltip")
-          |button.listen{ case _ => label3Tooltip.toggle() }
+          |button.listen { case _ => label3Tooltip.toggle() }
           |
-          |div(
+          |div(id := tooltipContainerId)(
           |  label1, label2, label3, button.render
           |).render""".stripMargin
     )(GuideStyles),
@@ -951,27 +946,28 @@ class BootstrapExtView extends FinalView {
     CodeBlock(
       s"""
          |import scala.concurrent.duration.DurationInt
-         |val label1 = UdashLabel(UdashBootstrap.newId(), "Popover on hover with delay").render
-         |val label1Tooltip = UdashPopover(
-         |  trigger = Seq(UdashPopover.HoverTrigger),
+         |val popoverContainerId = ComponentId("popover-container")
+         |val label1 = UdashBadge()(_ => Seq[Modifier]("Popover on hover with delay", Glo
+         |UdashPopover(
+         |  trigger = Seq(UdashPopover.Trigger.Hover),
          |  delay = UdashPopover.Delay(500 millis, 250 millis),
          |  title = (_) => "Popover...",
-         |  content = (_) => "Content..."
+         |  content = (_) => "Content...",
+         |  container = Option("#" + popoverContainerId)
          |)(label1)
-         |
-         |val label2 = UdashLabel(UdashBootstrap.newId(), "Popover on click").render
-         |val label2Tooltip = UdashPopover(
-         |  trigger = Seq(UdashPopover.ClickTrigger),
+         |val label2 = UdashBadge()(_ => Seq[Modifier]("Popover on click", GlobalStyles.s
+         |UdashPopover(
+         |  trigger = Seq(UdashPopover.Trigger.Click),
          |  delay = UdashPopover.Delay(0 millis, 250 millis),
-         |  placement = (_, _) => Seq(UdashPopover.BottomPlacement),
+         |  placement = (_, _) => Seq(UdashPopover.Placement.Bottom),
          |  title = (_) => "Popover 2...",
-         |  content = (_) => "Content..."
+         |  content = (_) => "Content...",
+         |  container = Option("#" + popoverContainerId)
          |)(label2)
-         |
-         |val label3 = UdashLabel(UdashBootstrap.newId(), "Popover with JS toggler").render
+         |val label3 = UdashBadge()(_ => Seq[Modifier]("Popover with JS toggler", GlobalS
          |val label3Tooltip = UdashPopover(
-         |  trigger = Seq(UdashPopover.ManualTrigger),
-         |  placement = (_, _) => Seq(UdashPopover.LeftPlacement),
+         |  trigger = Seq(UdashPopover.Trigger.Manual),
+         |  placement = (_, _) => Seq(UdashPopover.Placement.Left),
          |  html = true,
          |  title = (_) => "Popover 3...",
          |  content = (_) => {
@@ -980,13 +976,14 @@ class BootstrapExtView extends FinalView {
          |      p("HTML content..."),
          |      ul(li("Item 1"), li("Item 2"), li("Item 3"))
          |    ).render
-         |  }
+         |  },
+         |  container = Option("#" + popoverContainerId)
          |)(label3)
          |
          |val button = UdashButton()("Toggle popover")
          |button.listen { case _ => label3Tooltip.toggle() }
          |
-         |div(
+         |div(id := popoverContainerId)(
          |  label1, label2, label3, button.render
          |).render
        """.stripMargin
@@ -1003,23 +1000,22 @@ class BootstrapExtView extends FinalView {
     CodeBlock(
       s"""|val events = SeqProperty.blank[UdashCollapse.CollapseEvent]
           |val collapse = UdashCollapse()(
-          |  div(BootstrapStyles.Well.well)(
+          |  div(wellStyles)(
           |    ul(repeat(events)(event => li(event.get.toString).render))
           |  )
           |)
           |collapse.listen { case ev => events.append(ev) }
-          |
-          |val toggleButton = UdashButton(style = ButtonStyle.Primary)(
-          |  collapse.toggleButtonAttrs(), "Toggle..."
+          |val toggleButton = UdashButton(buttonStyle = BootstrapStyles.Color.Primary.toProperty)(
+          |  _ => Seq[Modifier](collapse.toggleButtonAttrs(), "Toggle...")
           |)
           |val openAndCloseButton = UdashButton()("Open and close after 2 seconds...")
-          |openAndCloseButton.listen{ case _ =>
+          |openAndCloseButton.listen { case _ =>
           |  collapse.show()
           |  window.setTimeout(() => collapse.hide(), 2000)
           |}
           |
           |div(
-          |  UdashButtonGroup(justified = true)(
+          |  UdashButtonGroup(justified = true.toProperty)(
           |    toggleButton.render,
           |    openAndCloseButton.render
           |  ).render,
@@ -1040,23 +1036,15 @@ class BootstrapExtView extends FinalView {
           |)
           |
           |val accordion = UdashAccordion(news)(
-          |  (news) => span(news.get).render,
-          |  (_) => div(BootstrapStyles.Panel.panelBody)(
-          |    div(BootstrapStyles.Well.well)(
-          |      ul(repeat(events)(event => li(event.get.toString).render))
-          |    )
-          |  ).render
+          |  (news, _) => span(news.get).render,
+          |  (_, _) => div(wellStyles)(ul(repeat(events)(event => li(event.get.toString).render))).render
           |)
           |
           |val accordionElement = accordion.render
-          |news.elemProperties.map(news => {
-          |  accordion.collapseOf(news)
-          |}).filter(_.isDefined)
+          |news.elemProperties.map(accordion.collapseOf)
+          |  .filter(_.isDefined)
           |  .foreach(_.get.listen { case ev => events.append(ev) })
-          |
-          |div(
-          |  accordionElement
-          |).render
+          |div(accordionElement).render
        """.stripMargin
     )(GuideStyles),
     ForceBootstrap(
@@ -1068,21 +1056,20 @@ class BootstrapExtView extends FinalView {
       " and can be cycled through programatically."
     ),
     CodeBlock(
-      s"""|def newSlide(): UdashCarouselSlide = UdashCarouselSlide(
-          |  Url("/assets/images/ext/bootstrap/carousel.png")
+      s"""def newSlide(): UdashCarouselSlide = UdashCarouselSlide(
+          |  Url("/assets/images/ext/bootstrap/carousel.jpg")
           |)(
           |  h3(randomString()),
           |  p(randomString())
           |)
-          |val slides = SeqProperty[UdashCarouselSlide](
-          |  (1 to 4).map(_ => newSlide())
-          |)
-          |val active = Property(false)
+          |val slides = SeqProperty[UdashCarouselSlide]((1 to 5).map(_ => newSlide()))
+          |val active = Property(true)
           |import scala.concurrent.duration._
-          |val carousel = UdashCarousel(slides, activeSlide = 1,
-          |  animationOptions = AnimationOptions(interval = 2 seconds,
-          |    keyboard = false, active = active.get)
-          |)
+          |val carousel = UdashCarousel(
+          |  slides = slides,
+          |  activeSlide = Property(1),
+          |  animationOptions = Property(AnimationOptions(interval = 2 seconds, keyboard = false, active = active.get))
+          |) { case (slide, nested) => nested(produce(slide)(_.render)) }
           |val prevButton = UdashButton()("Prev")
           |val nextButton = UdashButton()("Next")
           |val prependButton = UdashButton()("Prepend")
@@ -1093,20 +1080,22 @@ class BootstrapExtView extends FinalView {
           |appendButton.listen { case _ => slides.append(newSlide()) }
           |active.listen(b => if (b) carousel.cycle() else carousel.pause())
           |div(
-          |  UdashButtonToolbar(
-          |    UdashButton.toggle(active = active)("Run animation").render,
-          |    UdashButtonGroup()(
-          |      prevButton.render,
-          |      nextButton.render
-          |    ).render,
-          |    UdashButtonGroup()(
-          |      prependButton.render,
-          |      appendButton.render
+          |  div(
+          |    UdashButtonToolbar()(
+          |      UdashButton.toggle(active = active)("Run animation").render,
+          |      UdashButtonGroup()(
+          |        prevButton.render,
+          |        nextButton.render
+          |      ).render,
+          |      UdashButtonGroup()(
+          |        prependButton.render,
+          |        appendButton.render
+          |      ).render
           |    ).render
-          |  ).render,
+          |  ),
           |  div(
           |    carousel.render
-          |  ).render
+          |  )
           |).render""".stripMargin
     )(GuideStyles),
     ForceBootstrap(
